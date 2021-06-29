@@ -9,6 +9,17 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
+connection_url = 'mongodb+srv://Seif:00774400@jobsultant.nnpaa.mongodb.net/jobsultant?retryWrites=true&w=majority'
+client = pymongo.MongoClient(connection_url)
+db = client['jobsultant']
+collection = db['TestJobs']
+jobs = collection.find()
+print(jobs)
+list_cur = list(jobs)
+json_data = dumps(list_cur, indent = 2) 
+jobs = json.loads(json_data)
+jobs_df = pd.json_normalize(jobs)
+jobs_skills = jobs_df[['_id.$oid','Key_Skills']]
 
 @app.route('/')
 def index():
@@ -19,17 +30,6 @@ def postdata():
     print('ana brequest now')
     user = request.get_json()
     print(user)
-    connection_url = 'mongodb+srv://Seif:00774400@jobsultant.nnpaa.mongodb.net/jobsultant?retryWrites=true&w=majority'
-    client = pymongo.MongoClient(connection_url)
-    db = client['jobsultant']
-    collection = db['TestJobs']
-    jobs = collection.find()
-    print(jobs)
-    list_cur = list(jobs)
-    json_data = dumps(list_cur, indent = 2) 
-    jobs = json.loads(json_data)
-    jobs_df = pd.json_normalize(jobs)
-    jobs_skills = jobs_df[['_id.$oid','Key_Skills']]
     jobs_skills = jobs_skills.append(user,ignore_index=True)
     tfidf = TfidfVectorizer(stop_words='english')
     jobs_skills['Key_Skills'] = jobs_skills['Key_Skills'].fillna('')
