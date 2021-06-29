@@ -26,11 +26,12 @@ jobs_skills = jobs_df[['_id.$oid','Key_Skills']]
 def index():
     return "Flask server"
 
-@app.route('/postdata', methods=['POST'])
+@app.route('/postdata', methods=['POST','GET'])
 def postdata():
     print('ana brequest now')
     user = request.get_json()
     print(user)
+    global jobs_skills
     jobs_skills = jobs_skills.append(user,ignore_index=True)
     tfidf = TfidfVectorizer(stop_words='english')
     jobs_skills['Key_Skills'] = jobs_skills['Key_Skills'].fillna('')
