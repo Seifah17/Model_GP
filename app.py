@@ -16,6 +16,7 @@ def index():
 
 @app.route('/postdata', methods=['GET', 'POST'])
 def postdata():
+    print('ana brequest now')
     user = request.get_json()
     print(user)
     connection_url = 'mongodb+srv://Seif:00774400@jobsultant.nnpaa.mongodb.net/jobsultant?retryWrites=true&w=majority'
@@ -23,6 +24,7 @@ def postdata():
     db = client['jobsultant']
     collection = db['TestJobs']
     jobs = collection.find()
+    print(jobs)
     list_cur = list(jobs)
     json_data = dumps(list_cur, indent = 2) 
     jobs = json.loads(json_data)
@@ -34,6 +36,7 @@ def postdata():
     skills_matrix = tfidf.fit_transform(jobs_skills['Key_Skills'])
     similarity_matrix = linear_kernel(skills_matrix,skills_matrix)
     mapping = pd.Series(jobs_skills.index,index = jobs_skills['_id.$oid'])
+    print('hn3ml recommendations now')
     def recommend_jobs(job):
         job_index = mapping[job]
         similarity_score = list(enumerate(similarity_matrix[job_index]))
