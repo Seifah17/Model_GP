@@ -14,7 +14,7 @@ app = Flask(__name__)
 def index():
     return "Flask server"
 
-@app.route('/', methods=['POST'])
+@app.route('/postdata', methods=['POST'])
 def postdata():
     user = request.get_json()
     print(user)
