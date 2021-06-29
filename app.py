@@ -46,4 +46,4 @@ def postdata():
     return json.dumps(recommend_jobs(user['_id.$oid']))
 
 if __name__ == "__main__":
-    app.run()
+    app.run(env.process.port)
