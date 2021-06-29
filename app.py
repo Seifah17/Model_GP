@@ -19,7 +19,8 @@ list_cur = list(jobs)
 json_data = dumps(list_cur, indent = 2) 
 jobs = json.loads(json_data)
 jobs_df = pd.json_normalize(jobs)
-global jobs_skills = jobs_df[['_id.$oid','Key_Skills']]
+global jobs_skills
+jobs_skills = jobs_df[['_id.$oid','Key_Skills']]
 
 @app.route('/')
 def index():
