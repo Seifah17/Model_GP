@@ -26,7 +26,7 @@ jobs_skills = jobs_df[['_id.$oid','Key_Skills']]
 def index():
     return "Flask server"
 
-@app.route('/postdata', methods=['GET', 'POST'])
+@app.route('/postdata', methods=['POST'])
 def postdata():
     print('ana brequest now')
     user = request.get_json()
